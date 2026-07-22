@@ -1,0 +1,14 @@
+nav {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  a {
+    text-decoration: none;
+    color: #333;
+
+    &:hover {
+      color: #000;
+    }
+  }
+}
