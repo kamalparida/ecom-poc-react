@@ -1,5 +1,10 @@
-import './Home.scss'
+import ProductGrid from "../components/ProductGrid";
+import "./Home.scss";
 
 export default function Home() {
-  return <div className="home"><h1>Home</h1></div>
+  return (
+    <div className="home">
+      <ProductGrid />
+    </div>
+  );
 }
