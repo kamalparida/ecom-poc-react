@@ -1,6 +1,19 @@
-import './Search.scss'
+import { useState } from "react";
+import "./Search.scss";
 
 export default function Search({ searchText, setSearchText }) {
+  const [internalText, setInternalText] = useState("");
+  const isControlled = searchText !== undefined && setSearchText !== undefined;
+  const value = isControlled ? searchText : internalText;
+
+  const handleChange = (e) => {
+    if (isControlled) {
+      setSearchText(e.target.value);
+    } else {
+      setInternalText(e.target.value);
+    }
+  };
+
   return (
     <div className="search-container">
       <span className="search-icon" aria-hidden="true">
@@ -12,10 +25,10 @@ export default function Search({ searchText, setSearchText }) {
       <input
         type="search"
         placeholder="Search products"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+        value={value}
+        onChange={handleChange}
         aria-label="Search products"
       />
     </div>
-  )
+  );
 }
