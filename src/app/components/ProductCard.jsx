@@ -1,4 +1,5 @@
 import "./Product.scss";
+import StarRating from "./StarRating";
 
 export default function ProductCard({
   productName,
@@ -10,9 +11,7 @@ export default function ProductCard({
     <article className="product-card">
       <img src={productImage} alt={productName} />
       <p className="product-name">{productName}</p>
-      {rating != null && (
-        <p className="product-rating">{rating.toFixed(1)}</p>
-      )}
+      <StarRating rating={rating} />
       <p className="product-price">${productPrice.toFixed(2)}</p>
     </article>
   );

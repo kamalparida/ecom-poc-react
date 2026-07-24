@@ -1,0 +1,48 @@
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &__stars {
+    display: flex;
+    gap: 2px;
+  }
+
+  &__value {
+    color: #666;
+    font-size: 0.85rem;
+  }
+}
+
+.star {
+  display: inline-flex;
+  line-height: 0;
+  position: relative;
+
+  svg path {
+    fill: #e0e0e0;
+  }
+
+  &--full svg path {
+    fill: #f5a623;
+  }
+
+  &--half {
+    width: 16px;
+    height: 16px;
+
+    .star__empty,
+    .star__full {
+      position: absolute;
+      inset: 0;
+    }
+
+    .star__full {
+      clip-path: inset(0 50% 0 0);
+
+      path {
+        fill: #f5a623;
+      }
+    }
+  }
+}

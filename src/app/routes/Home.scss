@@ -1,3 +1,9 @@
 .home {
   padding: 16px;
+
+  &__filters {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+  }
 }
