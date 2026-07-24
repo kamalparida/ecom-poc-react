@@ -1,0 +1,119 @@
+.cart-line {
+  display: grid;
+  grid-template-columns: 80px 1fr auto auto auto;
+  gap: 1.25rem;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.cart-line__image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: #fafafa;
+  border-radius: 6px;
+  padding: 0.25rem;
+}
+
+.cart-line__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  line-height: 1.3;
+}
+
+.cart-line__category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888888;
+  margin-bottom: 0.35rem;
+}
+
+.cart-line__unit-price {
+  font-size: 0.85rem;
+  color: #888888;
+}
+
+.cart-line__quantity {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cart-line__qty-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #1a1a1a;
+  transition: background 0.15s;
+}
+
+.cart-line__qty-btn:hover {
+  background: #f0f0f0;
+}
+
+.cart-line__qty {
+  width: 36px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  line-height: 32px;
+}
+
+.cart-line__total {
+  font-size: 0.95rem;
+  font-weight: 700;
+  min-width: 70px;
+  text-align: right;
+}
+
+.cart-line__remove {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #888888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.cart-line__remove:hover {
+  background: #f0f0f0;
+  color: #1a1a1a;
+}
+
+@media (max-width: 640px) {
+  .cart-line {
+    grid-template-columns: 64px 1fr auto;
+    grid-template-rows: auto auto;
+  }
+
+  .cart-line__quantity {
+    grid-column: 2;
+  }
+
+  .cart-line__total {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .cart-line__remove {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
