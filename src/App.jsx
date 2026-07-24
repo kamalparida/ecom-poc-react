@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
-import Navbar from './app/components/Navbar'
-import Footer from './app/components/Footer'
+import Navbar from './app/components/Navbar/Navbar'
+import Footer from './app/components/Footer/Footer'
 import Home from './app/routes/Home'
 import Products from './app/routes/Products'
 import Cart from './app/routes/Cart'
