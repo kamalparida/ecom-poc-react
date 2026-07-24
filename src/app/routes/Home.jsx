@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CategoryDropdown from "../components/CategoryDropdown";
 import ProductGrid from "../components/ProductGrid";
+import Search from "../components/Search";
 import "./Home.scss";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
   return (
     <div className="home">
       <div className="home__filters">
+        <Search />
         <CategoryDropdown
           categories={categories}
           value={selectedCategory}
