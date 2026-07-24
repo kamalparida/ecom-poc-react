@@ -1,11 +1,21 @@
 import ProductCard from "./ProductCard";
 import "./Product.scss";
 
-export default function ProductGrid({ products = [], selectedCategory = "all" }) {
-  const filteredProducts =
-    selectedCategory === "all"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+export default function ProductGrid({
+  products = [],
+  selectedCategory = "all",
+  searchText = "",
+}) {
+  const query = searchText.trim().toLowerCase();
+
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory =
+      selectedCategory === "all" || product.category === selectedCategory;
+    const matchesSearch =
+      !query || product.title.toLowerCase().includes(query);
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="product-grid">

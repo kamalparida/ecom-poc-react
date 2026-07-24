@@ -7,6 +7,7 @@ import "./Home.scss";
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -27,14 +28,18 @@ export default function Home() {
   return (
     <div className="home">
       <div className="home__filters">
-        <Search />
+        <Search searchText={searchText} setSearchText={setSearchText} />
         <CategoryDropdown
           categories={categories}
           value={selectedCategory}
           onChange={setSelectedCategory}
         />
       </div>
-      <ProductGrid products={products} selectedCategory={selectedCategory} />
+      <ProductGrid
+        products={products}
+        selectedCategory={selectedCategory}
+        searchText={searchText}
+      />
     </div>
   );
 }
