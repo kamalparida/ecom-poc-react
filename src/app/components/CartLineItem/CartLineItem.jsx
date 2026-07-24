@@ -22,18 +22,14 @@ export default function CartLineItem({ item }) {
           className="cart-line__qty-btn"
           onClick={() => updateQuantity(item.id, item.quantity - 1)}
           aria-label="Decrease quantity"
-        >
-          −
-        </button>
+        />
         <span className="cart-line__qty">{item.quantity}</span>
         <button
           type="button"
           className="cart-line__qty-btn"
           onClick={() => updateQuantity(item.id, item.quantity + 1)}
           aria-label="Increase quantity"
-        >
-          +
-        </button>
+        />
       </div>
 
       <p className="cart-line__total">{formatPrice(lineTotal)}</p>
@@ -43,9 +39,7 @@ export default function CartLineItem({ item }) {
         className="cart-line__remove"
         onClick={() => removeItem(item.id)}
         aria-label={`Remove ${item.name}`}
-      >
-        ×
-      </button>
+      />
     </article>
   )
 }
