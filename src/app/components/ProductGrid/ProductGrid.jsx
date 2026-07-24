@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ProductCard from "./ProductCard";
-import Pagination from "./Pagination";
-import "./Product.scss";
+import ProductCard from "../ProductCard/ProductCard";
+import Pagination from "../Pagination/Pagination";
+import "./ProductGrid.scss";
 
 const ITEMS_PER_PAGE = 8;
 

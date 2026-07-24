@@ -1,5 +1,5 @@
-import "./Product.scss";
-import StarRating from "./StarRating";
+import "./ProductCard.scss";
+import StarRating from "../StarRating/StarRating";
 
 export default function ProductCard({
   productName,

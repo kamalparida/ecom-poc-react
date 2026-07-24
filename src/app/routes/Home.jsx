@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import CategoryDropdown from "../components/CategoryDropdown";
-import ProductGrid from "../components/ProductGrid";
-import Search from "../components/Search";
+import CategoryDropdown from "../components/CategoryDropdown/CategoryDropdown";
+import ProductGrid from "../components/ProductGrid/ProductGrid";
+import Search from "../components/Search/Search";
 import "./Home.scss";
 
 export default function Home() {
