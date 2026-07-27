@@ -44,6 +44,7 @@ function ProductGridContent({ products }) {
           paginatedProducts.map((product) => (
             <ProductCard
               key={product.id}
+              id={product.id}
               productName={product.title}
               productImage={product.image}
               productPrice={product.price}
