@@ -1,0 +1,32 @@
+.category-dropdown {
+  position: relative;
+  min-width: 200px;
+
+  select {
+    width: 100%;
+    height: 42px;
+    padding: 0 40px 0 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    appearance: none;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:focus {
+      border-color: #222;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    display: flex;
+    pointer-events: none;
+  }
+}
