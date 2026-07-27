@@ -1,7 +1,10 @@
 .home {
   padding: 16px;
 
-  h1 {
-    font-size: 2rem;
+  &__filters {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 16px;
   }
 }

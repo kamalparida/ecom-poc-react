@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { useCart } from '../context/CartContext'
-import { formatPrice } from '../utils/format'
+import { useCart } from '../../context/CartContext'
+import { formatPrice } from '../../utils/format'
 import './OrderSummary.css'
 
 export default function OrderSummary() {

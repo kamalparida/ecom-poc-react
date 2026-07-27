@@ -1,6 +1,6 @@
 import { useCart } from '../context/CartContext'
-import CartLineItem from '../components/CartLineItem'
-import OrderSummary from '../components/OrderSummary'
+import CartLineItem from '../components/CartLineItem/CartLineItem'
+import OrderSummary from '../components/OrderSummary/OrderSummary'
 import './Cart.scss'
 
 export default function Cart() {

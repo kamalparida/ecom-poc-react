@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
+import Toast from '../components/Toast/Toast'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toProduct } from '../../api/store'
 import QuantitySelector from '../components/QuantitySelector/QuantitySelector'
@@ -14,6 +15,7 @@ export default function ProductDetail() {
   const { product, loading, error } = useProduct(id)
   const { addItem } = useCart()
   const [quantity, setQuantity] = useState(1)
+  const [showToast, setShowToast] = useState(false)
 
   const compareAtPrice = useMemo(() => {
     if (!product) return null
@@ -23,6 +25,7 @@ export default function ProductDetail() {
   const handleAddToCart = useCallback(() => {
     if (!product) return
     addItem(toProduct(product), quantity)
+    setShowToast(true)
   }, [addItem, product, quantity])
 
   const handleBuyNow = useCallback(() => {
@@ -45,6 +48,12 @@ export default function ProductDetail() {
 
   return (
     <section className="product-detail">
+      {showToast && (
+        <Toast
+          message="Item added to cart!"
+          onClose={() => setShowToast(false)}
+        />
+      )}
       <nav className="product-detail__breadcrumb" aria-label="Breadcrumb">
         <Link to="/">Home</Link>
         <span>/</span>
