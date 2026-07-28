@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
-import { useCart } from '../../context/CartContext'
+import { useCartStore } from '../../store/cartStore'
 import { formatPrice } from '../../utils/format'
 import './OrderSummary.css'
 
-export default function OrderSummary() {
-  const { subtotal, shipping, tax, total } = useCart()
+export default function OrderSummary({ onCheckout }) {
+  const subtotal = useCartStore((s) => s.subtotal())
+  const shipping = useCartStore((s) => s.shipping())
+  const tax = useCartStore((s) => s.tax())
+  const total = useCartStore((s) => s.total())
 
   return (
     <aside className="order-summary">
@@ -29,7 +32,7 @@ export default function OrderSummary() {
         </div>
       </dl>
 
-      <button type="button" className="order-summary__checkout">
+      <button type="button" className="order-summary__checkout" onClick={onCheckout}>
         Checkout
       </button>
       <Link to="/" className="order-summary__home">

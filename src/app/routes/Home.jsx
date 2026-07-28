@@ -8,6 +8,7 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -17,6 +18,8 @@ export default function Home() {
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -26,20 +29,23 @@ export default function Home() {
   const categories = [...new Set(products.map((product) => product.category))].sort();
 
   return (
-    <div className="home">
-      <div className="home__filters">
-        <Search searchText={searchText} setSearchText={setSearchText} />
-        <CategoryDropdown
-          categories={categories}
-          value={selectedCategory}
-          onChange={setSelectedCategory}
+    <div className="app-wrapper">
+      <div className="home">
+        <div className="home__filters">
+          <Search searchText={searchText} setSearchText={setSearchText} />
+          <CategoryDropdown
+            categories={categories}
+            value={selectedCategory}
+            onChange={setSelectedCategory}
+          />
+        </div>
+        <ProductGrid
+          products={products}
+          selectedCategory={selectedCategory}
+          searchText={searchText}
+          loading={loading}
         />
       </div>
-      <ProductGrid
-        products={products}
-        selectedCategory={selectedCategory}
-        searchText={searchText}
-      />
     </div>
   );
 }
