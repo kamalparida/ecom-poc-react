@@ -10,13 +10,11 @@ export default function ProductCard({
   rating,
 }) {
   return (
-    <Link to={`/products/${id}`} className="product-card-link">
-      <article className="product-card">
-        <img src={productImage} alt={productName} />
-        <p className="product-name">{productName}</p>
-        <StarRating rating={rating} />
-        <p className="product-price">${productPrice.toFixed(2)}</p>
-      </article>
+    <Link to={`/products/${id}`} className="product-card">
+      <img src={productImage} alt={productName} />
+      <p className="product-name">{productName}</p>
+      <StarRating rating={rating} />
+      <p className="product-price">${productPrice.toFixed(2)}</p>
     </Link>
   );
 }

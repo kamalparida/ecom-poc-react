@@ -54,6 +54,26 @@
   font-size: 0.95rem;
 }
 
+.navbar__username {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.95rem;
+}
+
+.navbar__signout {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.88rem;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
 .navbar__cart {
   position: relative;
   display: inline-flex;

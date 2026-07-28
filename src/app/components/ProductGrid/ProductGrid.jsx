@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import Pagination from "../Pagination/Pagination";
+import Spinner from "../Spinner/Spinner";
 import "./ProductGrid.scss";
 
 const ITEMS_PER_PAGE = 8;
@@ -9,7 +10,9 @@ export default function ProductGrid({
   products = [],
   selectedCategory = "all",
   searchText = "",
+  loading = false,
 }) {
+  if (loading) return <Spinner />
   const query = searchText.trim().toLowerCase();
 
   const filteredProducts = products.filter((product) => {

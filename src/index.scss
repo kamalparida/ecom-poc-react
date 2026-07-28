@@ -22,7 +22,7 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius: 8px;
-  --max-width: 1120px;
+  --max-width: 1200px;
   --header-height: 64px;
 }
 
@@ -53,10 +53,15 @@ body {
 
 .app-main {
   flex: 1;
+}
+
+.app-wrapper {
   width: 100%;
-  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 28px 20px 48px;
+  max-width: var(--max-width);
+  padding: 0 20px;
+  margin-top: 40px;
+  margin-bottom: 80px;
 }
 
 a {
@@ -101,14 +106,14 @@ img {
 }
 
 .btn-secondary {
-  background: transparent;
+  background: var(--color-hover);
   color: var(--color-ink);
-  border-color: var(--color-border-hover);
+  border-color: var(--color-ink-muted);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--color-hover);
-  border-color: var(--color-ink-muted);
+  background: var(--color-surface-elevated);
+  border-color: var(--color-ink);
 }
 
 .btn-block {

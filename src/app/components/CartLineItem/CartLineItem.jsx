@@ -1,9 +1,10 @@
-import { useCart } from '../../context/CartContext'
+import { useCartStore } from '../../store/cartStore'
 import { formatPrice } from '../../utils/format'
 import './CartLineItem.css'
 
 export default function CartLineItem({ item }) {
-  const { updateQuantity, removeItem } = useCart()
+  const updateQuantity = useCartStore((s) => s.updateQuantity)
+  const removeItem = useCartStore((s) => s.removeItem)
   const lineTotal = item.price * item.quantity
 
   return (
