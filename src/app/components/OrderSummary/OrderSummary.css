@@ -54,6 +54,7 @@
   font-weight: 600;
   margin-bottom: 0.75rem;
   transition: opacity 0.2s;
+  cursor: pointer;
 }
 
 .order-summary__checkout:hover {
@@ -74,4 +75,34 @@
 
 .order-summary__home:hover {
   background: #f0f0f0;
+}
+
+.order-summary--success {
+  text-align: center;
+  padding: 2rem 1.5rem;
+
+  h2 {
+    margin: 0 0 8px;
+    font-size: 1.2rem;
+  }
+
+  p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+  }
+}
+
+.order-summary__success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #16a34a;
+  color: #fff;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
 }

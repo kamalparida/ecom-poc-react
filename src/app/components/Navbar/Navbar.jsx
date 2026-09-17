@@ -1,12 +1,23 @@
-import { Link, NavLink } from 'react-router-dom'
-import { useCart } from '../../context/CartContext'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useCartStore } from '../../store/cartStore'
+import { useAuthStore } from '../../store/authStore'
 import './Navbar.scss'
 
 const navClass = ({ isActive }) =>
   isActive ? 'navbar__nav-link is-active' : 'navbar__nav-link'
 
 export default function Navbar() {
-  const { itemCount } = useCart()
+  const user = useAuthStore((s) => s.user)
+  const signOut = useAuthStore((s) => s.signOut)
+  const itemCount = useCartStore((s) => s.itemCount())
+  const clearCart = useCartStore((s) => s.clearCart)
+  const navigate = useNavigate()
+
+  const handleSignOut = () => {
+    signOut()
+    clearCart()
+    navigate('/')
+  }
 
   return (
     <header className="navbar">
@@ -19,18 +30,17 @@ export default function Navbar() {
           <NavLink to="/" end className={navClass}>
             Home
           </NavLink>
-          <NavLink to="/products" className={navClass}>
-            Deals
-          </NavLink>
-          <NavLink to="/about" className={navClass}>
-            About
-          </NavLink>
         </nav>
 
         <div className="navbar__actions">
-          <Link to="/about" className="navbar__register">
-            Register
-          </Link>
+          {user ? (
+            <>
+              <span className="navbar__username">Hi, {user.firstName}</span>
+              <button className="navbar__signout" onClick={handleSignOut}>Sign out</button>
+            </>
+          ) : (
+            <Link to="/register" className="navbar__register">Register</Link>
+          )}
           <Link to="/cart" className="navbar__cart" aria-label="Open cart">
             <CartIcon />
             {itemCount > 0 && (

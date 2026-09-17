@@ -1,18 +1,20 @@
+import { Link } from "react-router-dom";
 import "./ProductCard.scss";
 import StarRating from "../StarRating/StarRating";
 
 export default function ProductCard({
+  id,
   productName,
   productImage,
   productPrice,
   rating,
 }) {
   return (
-    <article className="product-card">
+    <Link to={`/products/${id}`} className="product-card">
       <img src={productImage} alt={productName} />
       <p className="product-name">{productName}</p>
       <StarRating rating={rating} />
       <p className="product-price">${productPrice.toFixed(2)}</p>
-    </article>
+    </Link>
   );
 }

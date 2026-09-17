@@ -1,0 +1,150 @@
+.register-page {
+  background: #f3f3f3;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.register-card {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 40px 48px;
+  width: 100%;
+  max-width: 620px;
+  height: fit-content;
+
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: #111;
+  }
+
+  &__sub {
+    color: #666;
+    margin: 0 0 28px;
+    font-size: 0.95rem;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    &--half {
+      grid-template-columns: 1fr;
+      max-width: 50%;
+    }
+  }
+
+  &__section-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #999;
+    margin: 24px 0 12px;
+  }
+
+  &__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+
+  label {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 6px;
+  }
+
+  input,
+  select {
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #111;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &::placeholder {
+      color: #bbb;
+    }
+
+    &:focus {
+      border-color: #888;
+    }
+  }
+
+  &__error {
+    font-size: 0.78rem;
+    color: #d32f2f;
+    margin-top: 4px;
+  }
+}
+
+.btn {
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity 0.2s;
+
+  &:hover { opacity: 0.85; }
+
+  &--primary {
+    background: #111;
+    color: #fff;
+  }
+
+  &--secondary {
+    background: #fff;
+    color: #111;
+    border-color: #ddd;
+  }
+}
+
+.register-success {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f3f3;
+
+  &__box {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 48px;
+    text-align: center;
+
+    h2 { 
+      margin: 0 0 12px; 
+      color: #111; 
+    }
+    
+    p  { 
+      color: #666; 
+      margin-bottom: 24px; 
+    }
+
+    button {
+      @extend .btn;
+      @extend .btn--primary;
+      padding: 12px 32px;
+    }
+  }
+}

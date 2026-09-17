@@ -3,8 +3,9 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toProduct } from '../../api/store'
 import QuantitySelector from '../components/QuantitySelector/QuantitySelector'
 import StarRating from '../components/StarRating/StarRating'
-import { useCart } from '../context/CartContext'
+import { useCartStore } from '../store/cartStore'
 import { useProduct } from '../hooks/useProduct'
+import Spinner from '../components/Spinner/Spinner'
 import { formatCategory, formatPrice, titleCase } from '../utils/format'
 import './ProductDetail.scss'
 
@@ -12,7 +13,7 @@ export default function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { product, loading, error } = useProduct(id)
-  const { addItem } = useCart()
+  const addItem = useCartStore((s) => s.addItem)
   const [quantity, setQuantity] = useState(1)
 
   const compareAtPrice = useMemo(() => {
@@ -27,23 +28,18 @@ export default function ProductDetail() {
 
   const handleBuyNow = useCallback(() => {
     if (!product) return
-    addItem(toProduct(product), quantity)
+    const items = useCartStore.getState().items
+    const alreadyInCart = items.some((i) => i.id === product.id)
+    if (!alreadyInCart) addItem(toProduct(product), quantity)
     navigate('/cart')
   }, [addItem, navigate, product, quantity])
 
-  if (loading) {
-    return <div className="status-message">Loading product…</div>
-  }
+  if (loading) return <Spinner />
 
-  if (error || !product) {
-    return (
-      <div className="status-message error">
-        {error ?? 'Product not found'}
-      </div>
-    )
-  }
+  if (error || !product) return <p>{error ?? 'Product not found'}</p>
 
   return (
+    <div className="app-wrapper">
     <section className="product-detail">
       <nav className="product-detail__breadcrumb" aria-label="Breadcrumb">
         <Link to="/">Home</Link>
@@ -139,6 +135,7 @@ export default function ProductDetail() {
         </div>
       </div>
     </section>
+    </div>
   )
 }
 
