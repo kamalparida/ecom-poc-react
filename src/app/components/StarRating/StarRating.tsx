@@ -1,6 +1,12 @@
 import './StarRating.css'
 
-export default function StarRating({ rating, count, showValue = true }) {
+type StarRatingProps = {
+  rating?: number
+  count?: number
+  showValue?: boolean
+}
+
+export default function StarRating({ rating = 0, count, showValue = true }: StarRatingProps) {
   const clamped = Math.max(0, Math.min(5, rating))
   const fullStars = Math.floor(clamped)
   const hasHalf = clamped - fullStars >= 0.4

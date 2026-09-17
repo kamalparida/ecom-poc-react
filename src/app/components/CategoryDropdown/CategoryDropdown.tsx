@@ -1,16 +1,27 @@
-import "./CategoryDropdown.scss";
+import type { ChangeEvent } from 'react'
+import './CategoryDropdown.scss'
 
-function formatCategoryLabel(category) {
-  return category.charAt(0).toUpperCase() + category.slice(1);
+function formatCategoryLabel(category: string) {
+  return category.charAt(0).toUpperCase() + category.slice(1)
 }
 
-export default function CategoryDropdown({ categories = [], value, onChange }) {
+type CategoryDropdownProps = {
+  categories?: string[]
+  value: string
+  onChange: (value: string) => void
+}
+
+export default function CategoryDropdown({
+  categories = [],
+  value,
+  onChange,
+}: CategoryDropdownProps) {
   return (
     <div className="category-dropdown">
       <select
         id="category-filter"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
         aria-label="Filter by category"
       >
         <option value="all">All categories</option>
@@ -33,5 +44,5 @@ export default function CategoryDropdown({ categories = [], value, onChange }) {
         </svg>
       </span>
     </div>
-  );
+  )
 }

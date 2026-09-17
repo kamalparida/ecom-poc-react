@@ -1,12 +1,20 @@
 import './QuantitySelector.css'
 
+type QuantitySelectorProps = {
+  value: number
+  onChange: (value: number) => void
+  min?: number
+  max?: number
+  ariaLabel?: string
+}
+
 export default function QuantitySelector({
   value,
   onChange,
   min = 1,
   max = 99,
   ariaLabel = 'Quantity',
-}) {
+}: QuantitySelectorProps) {
   return (
     <div className="qty" role="group" aria-label={ariaLabel}>
       <button

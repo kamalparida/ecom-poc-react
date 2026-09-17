@@ -1,8 +1,13 @@
 import { useCartStore } from '../../store/cartStore'
 import { formatPrice } from '../../utils/format'
+import type { CartItem } from '../../../types'
 import './CartLineItem.css'
 
-export default function CartLineItem({ item }) {
+type CartLineItemProps = {
+  item: CartItem
+}
+
+export default function CartLineItem({ item }: CartLineItemProps) {
   const updateQuantity = useCartStore((s) => s.updateQuantity)
   const removeItem = useCartStore((s) => s.removeItem)
   const lineTotal = item.price * item.quantity

@@ -3,7 +3,11 @@ import { useCartStore } from '../../store/cartStore'
 import { formatPrice } from '../../utils/format'
 import './OrderSummary.css'
 
-export default function OrderSummary({ onCheckout }) {
+type OrderSummaryProps = {
+  onCheckout: () => void
+}
+
+export default function OrderSummary({ onCheckout }: OrderSummaryProps) {
   const subtotal = useCartStore((s) => s.subtotal())
   const shipping = useCartStore((s) => s.shipping())
   const tax = useCartStore((s) => s.tax())

@@ -1,9 +1,24 @@
 import { create } from 'zustand'
+import type { CartItem, CatalogProduct } from '../../types'
 
 const SHIPPING = 4.99
 const TAX_RATE = 0.08
 
-export const useCartStore = create((set, get) => ({
+type CartState = {
+  items: CartItem[]
+  loading: boolean
+  addItem: (product: CatalogProduct, quantity?: number) => void
+  removeItem: (id: number) => void
+  clearCart: () => void
+  updateQuantity: (id: number, quantity: number) => void
+  itemCount: () => number
+  subtotal: () => number
+  tax: () => number
+  shipping: () => number
+  total: () => number
+}
+
+export const useCartStore = create<CartState>((set, get) => ({
   items: [],
   loading: false,
   addItem: (product, quantity = 1) => {

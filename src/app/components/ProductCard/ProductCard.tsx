@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom";
-import "./ProductCard.scss";
-import StarRating from "../StarRating/StarRating";
+import { Link } from 'react-router-dom'
+import './ProductCard.scss'
+import StarRating from '../StarRating/StarRating'
+
+type ProductCardProps = {
+  id: number
+  productName: string
+  productImage: string
+  productPrice: number
+  rating?: number
+}
 
 export default function ProductCard({
   id,
@@ -8,7 +16,7 @@ export default function ProductCard({
   productImage,
   productPrice,
   rating,
-}) {
+}: ProductCardProps) {
   return (
     <Link to={`/products/${id}`} className="product-card">
       <img src={productImage} alt={productName} />
@@ -16,5 +24,5 @@ export default function ProductCard({
       <StarRating rating={rating} />
       <p className="product-price">${productPrice.toFixed(2)}</p>
     </Link>
-  );
+  )
 }

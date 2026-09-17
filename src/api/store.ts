@@ -1,18 +1,20 @@
+import type { ApiProduct, CatalogProduct } from '../types'
+
 const API = 'https://fakestoreapi.com'
 
-export async function fetchProduct(productId) {
+export async function fetchProduct(productId: string | number): Promise<ApiProduct> {
   const response = await fetch(`${API}/products/${productId}`)
   if (!response.ok) throw new Error(`Failed to fetch product ${productId}`)
-  return response.json()
+  return response.json() as Promise<ApiProduct>
 }
 
-export async function fetchProducts() {
+export async function fetchProducts(): Promise<ApiProduct[]> {
   const response = await fetch(`${API}/products`)
   if (!response.ok) throw new Error('Failed to fetch products')
-  return response.json()
+  return response.json() as Promise<ApiProduct[]>
 }
 
-export function toProduct(apiProduct) {
+export function toProduct(apiProduct: ApiProduct): CatalogProduct {
   return {
     id: apiProduct.id,
     name: apiProduct.title,

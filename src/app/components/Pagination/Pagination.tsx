@@ -1,7 +1,13 @@
-import "./Pagination.scss";
+import './Pagination.scss'
 
-export default function Pagination({ currentPage, totalPages, onPageChange }) {
-  if (totalPages <= 1) return null;
+type PaginationProps = {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+}
+
+export default function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+  if (totalPages <= 1) return null
 
   return (
     <nav className="pagination" aria-label="Product pagination">
@@ -19,21 +25,21 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
 
       <div className="pagination__pages">
         {Array.from({ length: totalPages }, (_, index) => {
-          const page = index + 1;
-          const isActive = page === currentPage;
+          const page = index + 1
+          const isActive = page === currentPage
 
           return (
             <button
               key={page}
               type="button"
-              className={`pagination__page${isActive ? " pagination__page--active" : ""}`}
+              className={`pagination__page${isActive ? ' pagination__page--active' : ''}`}
               onClick={() => onPageChange(page)}
               aria-label={`Page ${page}`}
-              aria-current={isActive ? "page" : undefined}
+              aria-current={isActive ? 'page' : undefined}
             >
               {page}
             </button>
-          );
+          )
         })}
       </div>
 
@@ -49,5 +55,5 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         </svg>
       </button>
     </nav>
-  );
+  )
 }

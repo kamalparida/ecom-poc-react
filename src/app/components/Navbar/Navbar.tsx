@@ -3,7 +3,7 @@ import { useCartStore } from '../../store/cartStore'
 import { useAuthStore } from '../../store/authStore'
 import './Navbar.scss'
 
-const navClass = ({ isActive }) =>
+const navClass = ({ isActive }: { isActive: boolean }) =>
   isActive ? 'navbar__nav-link is-active' : 'navbar__nav-link'
 
 export default function Navbar() {

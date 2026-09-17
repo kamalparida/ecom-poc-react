@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react'
 import { fetchProduct } from '../../api/store'
+import type { ApiProduct } from '../../types'
 
-export function useProduct(id) {
-  const [product, setProduct] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+export function useProduct(id: string | undefined) {
+  const [product, setProduct] = useState<ApiProduct | null>(null)
+  const [loading, setLoading] = useState(() => Boolean(id))
+  const [error, setError] = useState<string | null>(() =>
+    id ? null : 'Product id is missing'
+  )
 
   useEffect(() => {
     if (!id) {
-      setLoading(false)
-      setError('Product id is missing')
       return
     }
 
+    const productId = id
     let cancelled = false
 
     async function load() {
@@ -20,7 +22,7 @@ export function useProduct(id) {
       setError(null)
 
       try {
-        const data = await fetchProduct(id)
+        const data = await fetchProduct(productId)
         if (!cancelled) setProduct(data)
       } catch (err) {
         if (!cancelled) {
