@@ -26,7 +26,26 @@ export type CartItem = CatalogProduct & {
 }
 
 export type AuthUser = {
+  username: string
+  fullName: string
   firstName: string
-  lastName: string
   email: string
+}
+
+export type RegisterPayload = {
+  username: string
+  password: string
+  fullName: string
+  email: string
+  address: {
+    street: string
+    city: string
+    state: string
+    zip: string
+  }
+}
+
+export type LoginPayload = {
+  username: string
+  password: string
 }

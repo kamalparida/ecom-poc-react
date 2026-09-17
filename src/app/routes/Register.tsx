@@ -1,8 +1,10 @@
-import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { registerUser } from '../../api/auth'
+import FormField, { SectionLabel, authInputClass } from '../components/FormField/FormField'
+import { US_STATES } from '../constants/usStates'
 import { useAuthStore } from '../store/authStore'
 import {
   registerDefaultValues,
@@ -10,189 +12,152 @@ import {
   type RegisterFormValues,
 } from '../validation/registerSchema'
 
-const US_STATES = [
-  'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
-  'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
-  'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan',
-  'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire',
-  'New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio',
-  'Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota',
-  'Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia',
-  'Wisconsin','Wyoming',
-]
-
-const fieldControlClass =
-  'w-full rounded-md border border-neutral-300 bg-white px-3.5 py-2.5 text-[0.95rem] text-neutral-900 outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-500'
-
 export default function Register() {
-  const [submitted, setSubmitted] = useState(false)
   const navigate = useNavigate()
   const user = useAuthStore((s) => s.user)
-  const signIn = useAuthStore((s) => s.signIn)
+  const [apiError, setApiError] = useState('')
 
   const {
     register,
     handleSubmit,
-    getValues,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<RegisterFormValues>({
     resolver: yupResolver(registerSchema),
     defaultValues: registerDefaultValues,
     mode: 'onBlur',
   })
 
-  const onSubmit = (values: RegisterFormValues) => {
-    signIn({
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-    })
-    setSubmitted(true)
-  }
+  if (user) return <Navigate to="/" replace />
 
-  if (submitted) {
-    return (
-      <SuccessPanel
-        title="Account created successfully!"
-        message={`Welcome, ${getValues('firstName')}. You can now explore the app.`}
-        onHome={() => navigate('/')}
-      />
-    )
-  }
+  const onSubmit = async (values: RegisterFormValues) => {
+    setApiError('')
+    const street = values.address2?.trim()
+      ? `${values.address1.trim()}, ${values.address2.trim()}`
+      : values.address1.trim()
 
-  if (user) {
-    return (
-      <SuccessPanel
-        title="You're already registered!"
-        message={`Welcome back, ${user.firstName}. You already have an account.`}
-        onHome={() => navigate('/')}
-      />
-    )
+    try {
+      await registerUser({
+        username: values.username.trim(),
+        password: values.password,
+        fullName: `${values.firstName.trim()} ${values.lastName.trim()}`,
+        email: values.email.trim(),
+        address: {
+          street,
+          city: values.city.trim(),
+          state: values.state,
+          zip: values.zip.trim(),
+        },
+      })
+      navigate('/login', { replace: true, state: { justRegistered: true } })
+    } catch (error) {
+      setApiError(error instanceof Error ? error.message : 'Registration failed')
+    }
   }
 
   return (
-    <div className="flex min-h-screen justify-center bg-neutral-100 px-4 py-12">
-      <div className="h-fit w-full max-w-[620px] rounded-lg border border-neutral-200 bg-white px-12 py-10">
-        <h1 className="mb-1.5 text-[1.6rem] font-bold text-neutral-900">Create your account</h1>
-        <p className="mb-7 text-[0.95rem] text-neutral-500">
+    <div className="flex justify-center bg-[#f6f6f4] px-4 py-10">
+      <div className="h-fit w-full max-w-[640px] rounded-2xl bg-white px-6 py-8 shadow-sm sm:px-10 sm:py-10">
+        <h1 className="mb-1 text-2xl font-bold tracking-tight text-neutral-900">Create your account</h1>
+        <p className="mb-7 text-sm text-neutral-400">
           Fill in your details to register with Cartly.
         </p>
 
+        {apiError ? (
+          <p className="mb-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{apiError}</p>
+        ) : null}
+
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="First name" error={errors.firstName?.message}>
-              <input {...register('firstName')} className={fieldControlClass} placeholder="John" />
-            </Field>
-            <Field label="Last name" error={errors.lastName?.message}>
-              <input {...register('lastName')} className={fieldControlClass} placeholder="Doe" />
-            </Field>
+          <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+            <FormField label="First name" error={errors.firstName?.message}>
+              <input {...register('firstName')} className={authInputClass} placeholder="John" />
+            </FormField>
+            <FormField label="Last name" error={errors.lastName?.message}>
+              <input {...register('lastName')} className={authInputClass} placeholder="Doe" />
+            </FormField>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="Age" error={errors.age?.message}>
-              <input {...register('age')} type="number" className={fieldControlClass} placeholder="28" />
-            </Field>
-            <Field label="Phone" error={errors.phone?.message}>
-              <input {...register('phone')} className={fieldControlClass} placeholder="5551234567" />
-            </Field>
+          <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+            <FormField label="Age" error={errors.age?.message}>
+              <input {...register('age')} type="number" className={authInputClass} placeholder="28" />
+            </FormField>
+            <FormField label="Phone" error={errors.phone?.message}>
+              <input {...register('phone')} className={authInputClass} placeholder="+1 (555) 123-4567" />
+            </FormField>
           </div>
 
-          <Field label="Email" error={errors.email?.message}>
-            <input {...register('email')} type="email" className={fieldControlClass} placeholder="john.doe@example.com" />
-          </Field>
+          <FormField label="Email" error={errors.email?.message}>
+            <input {...register('email')} type="email" className={authInputClass} placeholder="john.doe@example.com" />
+          </FormField>
 
-          <div className="mb-3 mt-6 text-xs font-semibold tracking-[0.08em] text-neutral-400">
-            ADDRESS
+          <SectionLabel>ADDRESS</SectionLabel>
+
+          <FormField label="Address line 1" error={errors.address1?.message}>
+            <input {...register('address1')} className={authInputClass} placeholder="123 Market Street" />
+          </FormField>
+
+          <FormField label="Address line 2" error={errors.address2?.message}>
+            <input {...register('address2')} className={authInputClass} placeholder="Apt 4B (optional)" />
+          </FormField>
+
+          <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+            <FormField label="City" error={errors.city?.message}>
+              <input {...register('city')} className={authInputClass} placeholder="San Francisco" />
+            </FormField>
+            <FormField label="State" error={errors.state?.message}>
+              <div className="relative">
+                <select {...register('state')} className={`${authInputClass} appearance-none pr-10`}>
+                  <option value="">Select a state</option>
+                  {US_STATES.map((state) => (
+                    <option key={state.code} value={state.code}>{state.name}</option>
+                  ))}
+                </select>
+                <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </div>
+            </FormField>
           </div>
 
-          <Field label="Address line 1" error={errors.address1?.message}>
-            <input {...register('address1')} className={fieldControlClass} placeholder="123 Market Street" />
-          </Field>
-
-          <Field label="Address line 2" error={errors.address2?.message}>
-            <input {...register('address2')} className={fieldControlClass} placeholder="Apt 4B (optional)" />
-          </Field>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field label="City" error={errors.city?.message}>
-              <input {...register('city')} className={fieldControlClass} placeholder="San Francisco" />
-            </Field>
-            <Field label="State" error={errors.state?.message}>
-              <select {...register('state')} className={fieldControlClass}>
-                <option value="">Select a state</option>
-                {US_STATES.map((s) => (
-                  <option key={s} value={s}>{s}</option>
-                ))}
-              </select>
-            </Field>
+          <div className="sm:max-w-[50%] sm:pr-2">
+            <FormField label="Zip code" error={errors.zip?.message}>
+              <input {...register('zip')} className={authInputClass} placeholder="94103" />
+            </FormField>
           </div>
 
-          <div className="max-w-full sm:max-w-[50%]">
-            <Field label="Zip code" error={errors.zip?.message}>
-              <input {...register('zip')} className={fieldControlClass} placeholder="94103" />
-            </Field>
+          <SectionLabel>ACCOUNT</SectionLabel>
+
+          <FormField label="Username" error={errors.username?.message}>
+            <input {...register('username')} className={authInputClass} placeholder="johndoe28" autoComplete="username" />
+          </FormField>
+
+          <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+            <FormField label="Password" error={errors.password?.message}>
+              <input {...register('password')} type="password" className={authInputClass} placeholder="••••••••" autoComplete="new-password" />
+            </FormField>
+            <FormField label="Confirm password" error={errors.confirmPassword?.message}>
+              <input {...register('confirmPassword')} type="password" className={authInputClass} placeholder="••••••••" autoComplete="new-password" />
+            </FormField>
           </div>
 
-          <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <button
               type="submit"
-              className="cursor-pointer rounded-md bg-neutral-900 px-3 py-3 text-[0.95rem] font-semibold text-white transition-opacity hover:opacity-85"
+              disabled={isSubmitting}
+              className="cursor-pointer rounded-xl bg-neutral-900 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-55"
             >
-              Register
+              {isSubmitting ? 'Registering…' : 'Register'}
             </button>
             <button
               type="button"
-              className="cursor-pointer rounded-md border border-neutral-300 bg-white px-3 py-3 text-[0.95rem] font-semibold text-neutral-900 transition-opacity hover:opacity-85"
-              onClick={() => navigate(-1)}
+              className="cursor-pointer rounded-xl border border-neutral-200 bg-white py-3 text-sm font-semibold text-neutral-800 transition-colors hover:bg-neutral-50"
+              onClick={() => navigate('/')}
             >
               Cancel
             </button>
           </div>
         </form>
-      </div>
-    </div>
-  )
-}
-
-function Field({
-  label,
-  error,
-  children,
-}: {
-  label: string
-  error?: string
-  children: ReactNode
-}) {
-  return (
-    <div className="mb-4 flex flex-col">
-      <label className="mb-1.5 text-sm font-medium text-neutral-800">{label}</label>
-      {children}
-      {error ? <span className="mt-1 text-xs text-red-600">{error}</span> : null}
-    </div>
-  )
-}
-
-function SuccessPanel({
-  title,
-  message,
-  onHome,
-}: {
-  title: string
-  message: string
-  onHome: () => void
-}) {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-100">
-      <div className="rounded-lg border border-neutral-200 bg-white p-12 text-center">
-        <h2 className="mb-3 text-neutral-900">{title}</h2>
-        <p className="mb-6 text-neutral-500">{message}</p>
-        <button
-          type="button"
-          className="cursor-pointer rounded-md bg-neutral-900 px-8 py-3 text-[0.95rem] font-semibold text-white transition-opacity hover:opacity-85"
-          onClick={onHome}
-        >
-          Go to Home
-        </button>
       </div>
     </div>
   )
