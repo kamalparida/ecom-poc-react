@@ -35,11 +35,14 @@ export default function Navbar() {
         <div className="navbar__actions">
           {user ? (
             <>
-              <span className="navbar__username">Hi, {user.firstName}</span>
+              <span className="navbar__username">Hi, {user.firstName || user.username}</span>
               <button className="navbar__signout" onClick={handleSignOut}>Sign out</button>
             </>
           ) : (
-            <Link to="/register" className="navbar__register">Register</Link>
+            <>
+              <Link to="/login" className="navbar__register">Login</Link>
+              <Link to="/register" className="navbar__register">Register</Link>
+            </>
           )}
           <Link to="/cart" className="navbar__cart" aria-label="Open cart">
             <CartIcon />

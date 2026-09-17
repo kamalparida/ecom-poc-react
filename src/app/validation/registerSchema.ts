@@ -16,7 +16,10 @@ export const registerSchema = yup.object({
   phone: yup
     .string()
     .required('Enter a valid phone number')
-    .matches(/^\d{10}$/, 'Enter a valid phone number'),
+    .test('phone', 'Enter a valid phone number', (value) => {
+      const digits = (value ?? '').replace(/\D/g, '')
+      return digits.length === 10 || (digits.length === 11 && digits.startsWith('1'))
+    }),
   email: yup
     .string()
     .required('Enter a valid email address')
@@ -29,6 +32,20 @@ export const registerSchema = yup.object({
     .string()
     .required('Enter a valid zip code')
     .matches(/^\d{5}(-\d{4})?$/, 'Enter a valid zip code'),
+  username: yup
+    .string()
+    .trim()
+    .required('This field is required')
+    .min(3, 'Username must be at least 3 characters')
+    .matches(/^[a-zA-Z0-9._-]+$/, 'Use letters, numbers, dots, hyphens, or underscores'),
+  password: yup
+    .string()
+    .required('This field is required')
+    .min(6, 'Password must be at least 6 characters'),
+  confirmPassword: yup
+    .string()
+    .required('This field is required')
+    .oneOf([yup.ref('password')], 'Passwords must match'),
 })
 
 export type RegisterFormValues = yup.InferType<typeof registerSchema>
@@ -44,4 +61,7 @@ export const registerDefaultValues: RegisterFormValues = {
   city: '',
   state: '',
   zip: '',
+  username: '',
+  password: '',
+  confirmPassword: '',
 }

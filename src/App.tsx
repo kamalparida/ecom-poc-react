@@ -7,6 +7,7 @@ import Cart from './app/routes/Cart'
 import ProductDetail from './app/routes/ProductDetail'
 import About from './app/routes/About'
 import Register from './app/routes/Register'
+import Login from './app/routes/Login'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
       <Footer />
